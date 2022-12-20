@@ -16,17 +16,22 @@ export default function TextForm(props) {
     setText(newText);
 
   }
+
+  const handleCopy = () =>{
+    let text = document.getElementById("myBox");
+    text.select();
+    navigator.clipboard.writeText(text.value)
+  }
   const speak = () => {
     let msg = new SpeechSynthesisUtterance();
     msg.text = text;
     window.speechSynthesis.speak(msg);
   }
-
-  const copyText = ()=>{
-    var textData = document.getElementById("my-box");
-    textData.select();
-    navigator.clipboard.writeText(textData.value);
+  const handleExtraSpaces = () =>{
+    let newText = text.split(/[ ]+ /);
+    setText(newText.join(" "))
   }
+
   const changeHandler = (event) =>{
    setText(event.target.value);
   }
@@ -35,13 +40,13 @@ export default function TextForm(props) {
 <div>
   <div className='container my-3'>
     <h2>{props.heading}</h2>
-    <textarea className="form-control my-3" id="my-box" value={text} onChange={changeHandler} rows="5" ></textarea>
+    <textarea className="form-control my-3" id="myBox" value={text} onChange={changeHandler} rows="5" ></textarea>
     <button className="btn btn-primary mx-2" onClick={HandleUpClick}>Convert to UpperCase</button>
     <button className="btn btn-primary mx-2" onClick={lowerCase} >Lower Case</button>
     <button className="btn btn-primary mx-2" onClick={clearText}>Clear Text</button>
     <button className="btn btn-primary mx-2" onClick={speak}>Speak</button>
-    <button className="btn btn-primary mx-2" onClick={copyText}>Copy</button>
-
+    <button className="btn btn-primary mx-2" onClick={handleCopy}>Copy</button>
+    <button className="btn btn-primary mx-2" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
   </div>  
 </div>
 
